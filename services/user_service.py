@@ -1,21 +1,29 @@
 from dao.user_dao import UserDAO
+
 user_dao = UserDAO()
 
 class UserService:
-    @staticmethod
-    def list_users():
-        return [u.to_dict() for u in user_dao.list_all()]
 
     @staticmethod
-    def get_user(user_id):
-        u = user_dao.get_by_id(user_id)
-        return u.to_dict() if u else None
+    def get_all():
+        return user_dao.get_all()
 
     @staticmethod
-    def update_user(user_id, data):
-        user = user_dao.update(user_id, **data)
-        return user.to_dict()
+    def get_by_id(user_id):
+        return user_dao.get_by_id(user_id)
 
     @staticmethod
-    def delete_user(user_id):
+    def get_by_email(email):
+        return user_dao.get_by_email(email)
+
+    @staticmethod
+    def update(user_id, data):
+        user = user_dao.get_by_id(user_id)
+        if not user:
+            return None
+        updated = user_dao.update(user_id, data)
+        return updated
+
+    @staticmethod
+    def delete(user_id):
         return user_dao.delete(user_id)
