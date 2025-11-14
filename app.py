@@ -1,5 +1,6 @@
 import os
 from flask import Flask, jsonify
+from flask_cors import CORS   
 from config import Config
 from utils.db import init_db
 from routes.auth_routes import auth_bp
@@ -12,6 +13,7 @@ from dao.token_dao import TokenDAO
 
 def create_app():
     app = Flask(__name__)
+    CORS(app, supports_credentials=True)  
     app.config.from_object(Config)
 
     # Inicializa bcrypt e JWT
