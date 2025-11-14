@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify
 from config import Config
 from utils.db import init_db
@@ -11,36 +12,41 @@ from dao.token_dao import TokenDAO
 
 def create_app():
     app = Flask(__name__)
-        app.config.from_object(Config)
-            Bcrypt(app)
-                jwt = JWTManager(app)
-                    token_dao = TokenDAO()
+    app.config.from_object(Config)
 
-                        # init db
-                            init_db()
+    # Inicializa bcrypt e JWT
+    Bcrypt(app)
+    jwt = JWTManager(app)
+    token_dao = TokenDAO()
 
-                                # register blueprints
-                                    app.register_blueprint(auth_bp)
-                                        app.register_blueprint(user_bp)
-                                            app.register_blueprint(activity_bp)
-                                                app.register_blueprint(char_bp)
+    # Cria tabelas se não existirem
+    init_db()
 
-                                                    @jwt.token_in_blocklist_loader
-                                                        def check_if_token_revoked(jwt_header, jwt_payload):
-                                                                jti = jwt_payload["jti"]
-                                                                        return token_dao.exists(jti)
+    # Registra rotas
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(user_bp)
+    app.register_blueprint(activity_bp)
+    app.register_blueprint(char_bp)
 
-                                                                            @jwt.expired_token_loader
-                                                                                def expired_token_callback(jwt_header, jwt_payload):
-                                                                                        return jsonify({"message": "Token expired"}), 401
+    # Bloqueio de token (logout)
+    @jwt.token_in_blocklist_loader
+    def check_if_token_revoked(jwt_header, jwt_payload):
+        jti = jwt_payload["jti"]
+        return token_dao.exists(jti)
 
-                                                                                            @app.route("/")
-                                                                                                def index():
-                                                                                                        return jsonify({"message": "Parla API — running"})
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_payload):
+        return jsonify({"message": "Token expired"}), 401
 
-                                                                                                            return app
+    # Rota raiz
+    @app.route("/")
+    def index():
+        return jsonify({"message": "Parla API — running"})
 
-                                                                                                            if __name__ == "__main__":
-                                                                                                                app = create_app()
-                                                                                                                    app.run(host="0.0.0.0", port=5000, debug=True)
-                                                                                                                    
+    return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)

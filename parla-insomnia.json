@@ -1,0 +1,324 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-02-01T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2024.1.0",
+  "resources": [
+    {
+      "_id": "wrk_parla_api",
+      "name": "Parla API",
+      "_type": "workspace"
+    },
+
+    {
+      "_id": "env_parla_base",
+      "parentId": "wrk_parla_api",
+      "_type": "environment",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://127.0.0.1:5000",
+        "token": ""
+      }
+    },
+
+    {
+      "_id": "fld_auth",
+      "parentId": "wrk_parla_api",
+      "name": "Autenticação",
+      "_type": "request_group"
+    },
+
+    {
+      "_id": "req_register",
+      "parentId": "fld_auth",
+      "name": "Registrar Usuário",
+      "_type": "request",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"username\": \"bruna\",\n  \"email\": \"bruna@example.com\",\n  \"password\": \"123456\"\n}"
+      }
+    },
+
+    {
+      "_id": "req_login",
+      "parentId": "fld_auth",
+      "name": "Login",
+      "_type": "request",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"username\": \"bruna\",\n  \"password\": \"123456\"\n}"
+      }
+    },
+
+    {
+      "_id": "req_logout",
+      "parentId": "fld_auth",
+      "name": "Logout",
+      "_type": "request",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/logout",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "fld_users",
+      "parentId": "wrk_parla_api",
+      "name": "Usuários",
+      "_type": "request_group"
+    },
+
+    {
+      "_id": "req_list_users",
+      "parentId": "fld_users",
+      "name": "Listar Usuários",
+      "_type": "request",
+      "method": "GET",
+      "url": "{{ base_url }}/users",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_get_user",
+      "parentId": "fld_users",
+      "name": "Buscar Usuário por ID",
+      "_type": "request",
+      "method": "GET",
+      "url": "{{ base_url }}/users/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_update_user",
+      "parentId": "fld_users",
+      "name": "Atualizar Usuário",
+      "_type": "request",
+      "method": "PUT",
+      "url": "{{ base_url }}/users/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"novo@email.com\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_delete_user",
+      "parentId": "fld_users",
+      "name": "Deletar Usuário",
+      "_type": "request",
+      "method": "DELETE",
+      "url": "{{ base_url }}/users/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "fld_activities",
+      "parentId": "wrk_parla_api",
+      "name": "Atividades",
+      "_type": "request_group"
+    },
+
+    {
+      "_id": "req_create_activity",
+      "parentId": "fld_activities",
+      "name": "Criar Atividade",
+      "_type": "request",
+      "method": "POST",
+      "url": "{{ base_url }}/activities",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Prática de leitura labial\",\n  \"description\": \"Exercício 1: vogais\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_list_activities",
+      "parentId": "fld_activities",
+      "name": "Listar Todas",
+      "_type": "request",
+      "method": "GET",
+      "url": "{{ base_url }}/activities",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_my_activities",
+      "parentId": "fld_activities",
+      "name": "Minhas Atividades",
+      "_type": "request",
+      "method": "GET",
+      "url": "{{ base_url }}/activities/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_update_activity",
+      "parentId": "fld_activities",
+      "name": "Atualizar Atividade",
+      "_type": "request",
+      "method": "PUT",
+      "url": "{{ base_url }}/activities/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"done\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_delete_activity",
+      "parentId": "fld_activities",
+      "name": "Deletar Atividade",
+      "_type": "request",
+      "method": "DELETE",
+      "url": "{{ base_url }}/activities/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "fld_characters",
+      "parentId": "wrk_parla_api",
+      "name": "Personagens",
+      "_type": "request_group"
+    },
+
+    {
+      "_id": "req_create_character",
+      "parentId": "fld_characters",
+      "name": "Criar Personagem",
+      "_type": "request",
+      "method": "POST",
+      "url": "{{ base_url }}/characters",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Luna\",\n  \"avatar\": \"https://example.com/luna.png\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_list_characters",
+      "parentId": "fld_characters",
+      "name": "Listar Personagens",
+      "_type": "request",
+      "method": "GET",
+      "url": "{{ base_url }}/characters",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_my_characters",
+      "parentId": "fld_characters",
+      "name": "Meus Personagens",
+      "_type": "request",
+      "method": "GET",
+      "url": "{{ base_url }}/characters/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_update_character",
+      "parentId": "fld_characters",
+      "name": "Atualizar Personagem",
+      "_type": "request",
+      "method": "PUT",
+      "url": "{{ base_url }}/characters/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Luna Atualizada\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    },
+
+    {
+      "_id": "req_delete_character",
+      "parentId": "fld_characters",
+      "name": "Deletar Personagem",
+      "_type": "request",
+      "method": "DELETE",
+      "url": "{{ base_url }}/characters/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ]
+    }
+
+  ]
+}
